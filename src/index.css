@@ -1,0 +1,58 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Tahoma", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Tahoma", sans-serif;
+  
+  --color-brand-sidebar: #111827;
+  --color-brand-accent: #2563eb;
+  --color-brand-bg: #f3f4f6;
+  --color-brand-border: #e5e7eb;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-slate-900 antialiased font-sans;
+  }
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Custom scrollbar for sleeker look */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.sidebar-nav-item {
+  @apply flex items-center gap-3 px-6 py-3 text-sm font-medium text-slate-400 border-l-4 border-transparent transition-all hover:bg-slate-800 hover:text-white;
+}
+
+.sidebar-nav-item.active {
+  @apply bg-slate-800 text-white border-brand-accent;
+}
+
+.card-sleek {
+  @apply bg-white rounded-lg border border-brand-border shadow-sm;
+}
+
+.badge-sleek {
+  @apply px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider;
+}

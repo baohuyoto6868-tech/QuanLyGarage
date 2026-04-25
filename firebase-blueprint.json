@@ -1,0 +1,166 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "System user account",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "manager", "accountant", "sale"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "email", "role", "status"]
+    },
+    "Customer": {
+      "title": "Customer",
+      "description": "Garage customer",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "birthday": { "type": "string", "format": "date" },
+        "address": { "type": "string" },
+        "debtBalance": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Vehicle": {
+      "title": "Vehicle",
+      "description": "Customer vehicle",
+      "type": "object",
+      "properties": {
+        "customerId": { "type": "string" },
+        "licensePlate": { "type": "string" },
+        "vin": { "type": "string" },
+        "engineNumber": { "type": "string" },
+        "mileage": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["customerId", "licensePlate"]
+    },
+    "Supplier": {
+      "title": "Supplier",
+      "description": "Parts and services supplier",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" },
+        "debtBalance": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Inventory product or part",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "sku": { "type": "string" },
+        "priceImport": { "type": "number" },
+        "priceSale": { "type": "number" },
+        "stockQuantity": { "type": "number" },
+        "minStockAlert": { "type": "number" },
+        "isConsignment": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "sku", "priceImport", "priceSale", "stockQuantity"]
+    },
+    "InventoryLog": {
+      "title": "InventoryLog",
+      "description": "Stock movement record",
+      "type": "object",
+      "properties": {
+        "productId": { "type": "string" },
+        "type": { "type": "string", "enum": ["import", "export", "consignment", "adjustment"] },
+        "quantity": { "type": "number" },
+        "stockBefore": { "type": "number" },
+        "stockAfter": { "type": "number" },
+        "notes": { "type": "string" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["productId", "type", "quantity", "stockBefore", "stockAfter", "createdBy"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Repair order",
+      "type": "object",
+      "properties": {
+        "code": { "type": "string" },
+        "customerId": { "type": "string" },
+        "vehicleId": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "repairing", "completed", "cancelled"] },
+        "totalAmount": { "type": "number" },
+        "insuranceAmount": { "type": "number" },
+        "discountAmount": { "type": "number" },
+        "finalAmount": { "type": "number" },
+        "createdBy": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["code", "customerId", "vehicleId", "status", "createdBy"]
+    },
+    "OrderItem": {
+      "title": "OrderItem",
+      "description": "Specific item in an order",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "productId": { "type": "string" },
+        "serviceName": { "type": "string" },
+        "quantity": { "type": "number" },
+        "price": { "type": "number" }
+      },
+      "required": ["orderId", "quantity", "price"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Order payment record",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "amount": { "type": "number" },
+        "method": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "completed", "failed"] },
+        "paidAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "amount", "method", "status"]
+    },
+    "Notification": {
+      "title": "Notification",
+      "description": "User notification",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string" },
+        "isRead": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "content", "type"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": { "schema": "User", "description": "Users of the system" },
+    "/customers/{customerId}": { "schema": "Customer", "description": "Garage customers" },
+    "/vehicles/{vehicleId}": { "schema": "Vehicle", "description": "Customer vehicles" },
+    "/suppliers/{supplierId}": { "schema": "Supplier", "description": "Suppliers" },
+    "/products/{productId}": { "schema": "Product", "description": "Inventory items" },
+    "/inventoryLogs/{logId}": { "schema": "InventoryLog", "description": "Stock logs" },
+    "/orders/{orderId}": { "schema": "Order", "description": "Repair orders" },
+    "/orders/{orderId}/items/{itemId}": { "schema": "OrderItem", "description": "Order items" },
+    "/payments/{paymentId}": { "schema": "Payment", "description": "Order payments" },
+    "/notifications/{notificationId}": { "schema": "Notification", "description": "System notifications" }
+  }
+}
